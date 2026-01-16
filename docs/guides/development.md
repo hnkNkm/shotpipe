@@ -167,15 +167,18 @@ git commit -m "feat: テキスト注釈機能を追加"
 git commit -m "fix: クリップボード監視のメモリリークを修正"
 ```
 
-### 2. ブランチ戦略
+### 2. ブランチ戦略（GitHub Flow）
 
 ```
-main           # 本番環境
-├── develop    # 開発環境
-    ├── feature/text-annotation
-    ├── feature/arrow-tool
-    └── fix/clipboard-memory-leak
+main           # メインブランチ（常にデプロイ可能な状態）
+├── feature/text-annotation
+├── feature/arrow-tool
+└── fix/clipboard-memory-leak
 ```
+
+- `main`ブランチは常に動作する状態を保つ
+- 機能追加やバグ修正は`feature/`や`fix/`ブランチで作業
+- 作業完了後、`main`にマージ
 
 ### 3. コードスタイル
 
