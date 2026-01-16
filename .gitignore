@@ -1,0 +1,80 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+
+# Tauri
+/src-tauri/target/
+/dist/
+
+# Frontend
+node_modules/
+.pnpm-store/
+/build/
+/out/
+.next/
+.vite/
+.output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+*.lcov
+.nyc_output/
+
+# OS files (removed duplicates below)
+
+# Nix
+result
+result-*
+
+# Tauri build outputs
+/src-tauri/WixTools/
+
+# Vite
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Lock files (keep only pnpm-lock.yaml)
+package-lock.json
+yarn.lock
