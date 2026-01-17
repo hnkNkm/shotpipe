@@ -6,7 +6,7 @@ use std::io::Cursor;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ClipboardManager {
     clipboard: Arc<Mutex<Clipboard>>,
     last_image_hash: Arc<Mutex<Option<String>>>,

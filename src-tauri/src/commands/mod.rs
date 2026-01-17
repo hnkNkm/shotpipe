@@ -1,9 +1,8 @@
-use crate::clipboard::ClipboardManager;
 use crate::state::AppState;
 use serde::{Deserialize, Serialize};
 use tauri::State;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Preset {
     pub id: String,
     pub name: String,
@@ -13,7 +12,7 @@ pub struct Preset {
     pub close_after_copy: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
     pub monitoring: bool,
     pub presets: Vec<Preset>,
