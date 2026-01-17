@@ -10,13 +10,13 @@
 **期間目安**: 2-3日
 
 #### 1.1 プロジェクト基盤整備
-- Tauri v2プロジェクトの初期設定
-- 必要なTauriプラグインの導入
-  - `tauri-plugin-clipboard`
-  - `tauri-plugin-notification`
-  - `tauri-plugin-system-tray`
-  - `tauri-plugin-store`
-- Rust側の基本的なモジュール構造の構築
+- [x] Tauri v2プロジェクトの初期設定
+- [x] 必要なTauriプラグインの導入
+  - [x] `tauri-plugin-clipboard-manager`
+  - [x] `tauri-plugin-notification`
+  - [ ] `tauri-plugin-system-tray` (組み込み機能を使用)
+  - [x] `tauri-plugin-store`
+- [x] Rust側の基本的なモジュール構造の構築
 
 #### 1.2 システムトレイ実装
 - システムトレイアイコンの表示
