@@ -12,13 +12,22 @@
   "app": {
     "windows": [
       {
-        "title": "shotpipe-app",
+        "label": "main",
+        "title": "Shotpipe",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "visible": true,
+        "skipTaskbar": false
       }
     ],
     "security": {
       "csp": null
+    },
+    "trayIcon": {
+      "id": "tray",
+      "iconPath": "icons/32x32.png",
+      "iconAsTemplate": false,
+      "menuOnLeftClick": false
     }
   },
   "bundle": {
