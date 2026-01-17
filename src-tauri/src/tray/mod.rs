@@ -1,7 +1,6 @@
 use tauri::{
     AppHandle, Manager, Runtime, Emitter,
     menu::{Menu, MenuBuilder, MenuItemBuilder, PredefinedMenuItem},
-    tray::TrayIcon,
 };
 use crate::state::AppState;
 
@@ -73,12 +72,38 @@ fn handle_tray_event<R: Runtime>(app: &AppHandle<R>, id: &str) {
             let app_handle = app.clone();
             tauri::async_runtime::spawn(async move {
                 let state = app_handle.state::<AppState>();
-                let mut monitoring = state.monitoring.lock().await;
-                *monitoring = !*monitoring;
-                let new_status = *monitoring;
-                drop(monitoring);
                 
-                log::info!("Monitoring toggled: {}", new_status);
+                // Get current status
+                let current_status = *state.monitoring.lock().await;
+                
+                // Toggle the actual monitoring
+                let result = if !current_status {
+                    // Start monitoring
+                    let mut monitor_guard = state.clipboard_monitor.lock().await;
+                    if let Some(monitor) = monitor_guard.as_mut() {
+                        if let Err(e) = monitor.start().await {
+                            log::error!("Failed to start monitoring: {}", e);
+                            return;
+                        }
+                    }
+                    let mut monitoring = state.monitoring.lock().await;
+                    *monitoring = true;
+                    true
+                } else {
+                    // Stop monitoring
+                    let mut monitor_guard = state.clipboard_monitor.lock().await;
+                    if let Some(monitor) = monitor_guard.as_mut() {
+                        if let Err(e) = monitor.stop().await {
+                            log::error!("Failed to stop monitoring: {}", e);
+                            return;
+                        }
+                    }
+                    let mut monitoring = state.monitoring.lock().await;
+                    *monitoring = false;
+                    false
+                };
+                
+                log::info!("Monitoring toggled: {}", result);
                 
                 // Update tray menu
                 if let Some(tray) = app_handle.tray_by_id("tray") {
@@ -88,7 +113,7 @@ fn handle_tray_event<R: Runtime>(app: &AppHandle<R>, id: &str) {
                 }
                 
                 // Emit event to frontend
-                let _ = app_handle.emit("monitoring-changed", new_status);
+                let _ = app_handle.emit("monitoring-changed", result);
             });
         }
         "open_settings" => {

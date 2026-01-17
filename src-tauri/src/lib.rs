@@ -1,5 +1,6 @@
 mod clipboard;
 mod commands;
+mod monitor;
 mod state;
 mod tray;
 
@@ -22,6 +23,15 @@ pub fn run() {
                 Ok(_) => log::info!("System tray configured successfully"),
                 Err(e) => log::error!("Failed to configure system tray: {}", e),
             }
+            
+            // Initialize clipboard monitor in app state
+            let app_handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                let state = app_handle.state::<AppState>();
+                let mut monitor_guard = state.clipboard_monitor.lock().await;
+                *monitor_guard = Some(monitor::ClipboardMonitor::new(app_handle.clone()));
+                log::info!("Clipboard monitor initialized");
+            });
             
             log::info!("Shotpipe application started");
             Ok(())

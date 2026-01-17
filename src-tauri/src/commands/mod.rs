@@ -85,16 +85,34 @@ pub async fn save_settings(
 
 #[tauri::command]
 pub async fn start_monitoring(state: State<'_, AppState>) -> Result<(), String> {
+    // Start the clipboard monitor
+    let mut monitor_guard = state.clipboard_monitor.lock().await;
+    if let Some(monitor) = monitor_guard.as_mut() {
+        monitor.start().await?;
+    } else {
+        return Err("Clipboard monitor not initialized".to_string());
+    }
+    
+    // Update monitoring state
     let mut monitoring = state.monitoring.lock().await;
     *monitoring = true;
+    
     log::info!("Monitoring started");
     Ok(())
 }
 
 #[tauri::command]
 pub async fn stop_monitoring(state: State<'_, AppState>) -> Result<(), String> {
+    // Stop the clipboard monitor
+    let mut monitor_guard = state.clipboard_monitor.lock().await;
+    if let Some(monitor) = monitor_guard.as_mut() {
+        monitor.stop().await?;
+    }
+    
+    // Update monitoring state
     let mut monitoring = state.monitoring.lock().await;
     *monitoring = false;
+    
     log::info!("Monitoring stopped");
     Ok(())
 }
